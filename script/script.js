@@ -24,4 +24,14 @@ function pegarDados(){
     let dados = axios.get("https://mock-api.driven.com.br/api/v4/shirts-api/shirts")
     console.log(dados)
 }
+
+function confirmarPedido(){
+    let input = String(document.querySelector("input").value).length
+    if(input == 0){
+        alert('Por favor insira um link válido')
+    }
+    else{
+        console.log("o botão funciona")
+    }
+}
 pegarDados()
