@@ -1,0 +1,244 @@
+/* Configurações globais */
+
+* {
+    box-sizing: flex-box;
+}
+
+/* Configurações especificas*/
+
+body {
+    width: 99.3vw;
+    height: 100vh;
+    background-color: #F2F2F2;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+/* Header */
+header {
+    width: 100%;
+    height: 89px;
+    background-color: #404eed;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 0px;
+    top: 0px;
+}
+
+header img {
+    margin-left: 80px;
+}
+
+/* Main */
+main {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+main article {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 695px;
+    height: 784px;
+    background-color: #ffffff;
+    margin-top: 89px;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.container-produto {
+    width: 400px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 8.5px;
+}
+
+.imagem-produto, .imagem-produto2, .imagem-produto3, .imagem-produto4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background: #F2F2F2;
+    border: 0.5px solid #C4C4C4;
+    border-radius: 100px;
+    box-sizing: border-box;
+    margin-right: auto;
+}
+
+.imagem-produto img {
+    width: 80px;
+    height: 80px;
+}
+
+.produto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: centers;
+}
+
+.produto p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+input {
+    width: 395px;
+    height: 40px;
+    background-color: #F2F2F2;
+    border-radius: 10px;
+    border: 0px;
+}
+
+input::placeholder {
+    width: 71px;
+    height: 16px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 10px;
+
+    color: #818181;
+}
+
+button {
+    width: 398.61px;
+    height: 40px;
+    border: 0px;
+    background: #C4C4C4;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 23px;
+
+}
+
+button p {
+    width: 155px;
+    height: 19.17px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #FCFCFC;
+}
+
+/* Aside */
+aside {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 89px;
+    width: calc(100% - 695.5px);
+    height: 785px;
+    background-color: #404eed;
+}
+
+/*Footer*/
+
+footer {
+    width: 100%;
+    height: 342px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow: hidden;
+}
+
+footer article {
+    margin-left: 121px;
+}
+
+span {
+    width: 174px;
+    height: 28px;
+    position: absolute;
+    top: 900px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    color: #232323;
+
+}
+
+arcticle p {
+    width: 174px;
+    height: 28px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    color: #232323;
+}
+
+.container2 {
+    width: 99.3vw;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-center;
+}
+
+.pedidos, .pedidos2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin-right: 16.63px;
+}
+
+.pedidos img {
+    width: 180px;
+    height: 180px;
+}
+
+.pedidos2 img {
+    width: 147px;
+    height: 180px;
+}
+
+/* Sidebar especial */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
