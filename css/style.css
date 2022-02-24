@@ -57,7 +57,7 @@ main article {
     justify-content: space-evenly;
 }
 
-.container-produto {
+.container-produto,.container-produto2,.container-produto3 {
     width: 400px;
     display: flex;
     justify-content: space-evenly;
@@ -84,6 +84,7 @@ main article {
 }
 
 .produto {
+    background-color: red;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -241,4 +242,10 @@ arcticle p {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+/* Para o JavaScript */
+
+.selecionado{
+    border: 3px solid #404EED;
 }
