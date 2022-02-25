@@ -3,7 +3,8 @@
 let nomeUsuario = prompt("Bem vindo à DrivenFashion \nQual por qual nome podemos te chamar?")
 let ListaPedidos = []
 let inputValor = ""
-let checar1, checar2, checar3,travar = false
+let checar1, checar2, checar3,check1, travar = false
+
 
 /* Funções */
 function selecionar(produto) {
@@ -61,7 +62,6 @@ function selecionar3(produto) {
         }
         else {
             produto.classList.remove('selecionado');
-            //confirm("Você deseja mesmo?")
         }
         if (trava === true) {
             checar3 = true
@@ -73,15 +73,15 @@ function urlInput() {
     let input = String(document.querySelector("input").value)
     if (input.length === 0) {
         alert('Por favor insira um link válido')
+        return false
     }
     else {
         inputValor = input
-        confirm("Pedido feito, clicke em OK para confirmar")
+        return true
     }
 }
 
 function liberarBotao() {
-    check1 = false
     if (checar1 === true && checar2 === true) {
         check1 = true
     }
@@ -98,7 +98,25 @@ function liberarBotao() {
 }
 function confirmarPedido() {
     let travar = false
-    urlInput()
+    let objeto = {
+        "model": "t-shirt",
+        "neck": "v-neck",
+        "material": "silk",
+        "image": "https://cdn.nerdstore.com.br/wp-content/uploads/2020/08/cid-camiseta-blackout-01-800x800.jpg",
+        "owner": nomeUsuario,
+        "author": "bbbbb"
+    }
+    if (urlInput() == true && check1 == true) {
+        alert("Pedido feito! \nObrigado por escolher a nossa loja")
+        postarPedido(objeto)
+    }
+}
+
+function checarEscolhas(){
+    let quantidadeProdutos = document.querySelectorAll(".container-produto .selecionado").length
+    for(i = 0; i<quantidadeProdutos.length; i++){
+        
+    }
 }
 
 /* Axios */
@@ -106,12 +124,14 @@ function confirmarPedido() {
 function pegarDados() {
     let dados = axios.get("https://mock-api.driven.com.br/api/v4/shirts-api/shirts")
     dados.then(carregarPedidos)
+    dados.catch(tratarErros)
 }
 
 function carregarPedidos(resposta) {
     ListaPedidos = resposta.data;
     renderizarPedidos()
-    //    setInterval(pegarDados, 10000)
+    console.log("aaaa")
+    setInterval(pegarDados, 10000)
 }
 
 function renderizarPedidos(pedido) {
@@ -123,17 +143,35 @@ function renderizarPedidos(pedido) {
     }
 }
 
-
+function confirmarPedidos() {
+    let confirmar = confirm("Pedido feito, clicke em OK para confirmar")
+    console.log(confirmar)
+}
 function pedidoDiv(pedido) {
     return `
     <div class="container-pedidos">
-    <div class="pedidos">
+    <div class="pedidos" onclick="confirmarPedidos()">
         <div class="imagem-pedidos">
             <img src="${pedido.image}">
         </div>
-        <p><strong>Criador:</strong>${pedido.owner}</p>
+        <p><strong>Criador:</strong> ${pedido.owner}</p>
     </div>
     `
+}
+
+function postarPedido(objeto) {
+    let promessa = axios.post('https://mock-api.driven.com.br/api/v4/shirts-api/shirts', objeto)
+    promessa.then(pedidoDiv)
+    promessa.catch(tratarErros)
+}
+
+function tratarErros(erro) {
+    console.log("Status Code: " + erro.response.status);
+    console.log("Mensagem de erro: " + erro.response.data)
+    if (parseInt(erro.response.status) === 400) {
+        alert("Esse usuário já está em uso. Por favor, inserir outro.")
+        recarregarPagina()
+    }
 }
 setInterval(liberarBotao, 1000)
 pegarDados()

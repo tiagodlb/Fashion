@@ -262,3 +262,7 @@ arcticle p {
 button .botaoSelecionado{
     background-color: #404EED;
 }
+
+strong{
+    font-weight: bold;
+}
