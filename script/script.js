@@ -2,6 +2,7 @@
 
 let nomeUsuario = prompt("Bem vindo à DrivenFashion \nQual por qual nome podemos te chamar?")
 let ListaPedidos = []
+let tipoCamisa = []
 let inputValor = ""
 let checar1, checar2, checar3,check1, travar = false
 
@@ -20,8 +21,6 @@ function selecionar(produto) {
         }
         else {
             produto.classList.remove('selecionado');
-
-            //confirm("Você deseja mesmo?")
         }
         if (trava === true) {
             checar1 = true
@@ -41,7 +40,6 @@ function selecionar2(produto) {
         }
         else {
             produto.classList.remove('selecionado');
-            //confirm("Você deseja mesmo?")
         }
         if (trava === true) {
             checar2 = true
@@ -58,7 +56,6 @@ function selecionar3(produto) {
         }
         if (trava == true && produto.className === 'produto') {
             produto.classList.add('selecionado');
-
         }
         else {
             produto.classList.remove('selecionado');
@@ -81,6 +78,8 @@ function urlInput() {
     }
 }
 
+
+
 function liberarBotao() {
     if (checar1 === true && checar2 === true) {
         check1 = true
@@ -98,17 +97,9 @@ function liberarBotao() {
 }
 function confirmarPedido() {
     let travar = false
-    let objeto = {
-        "model": "t-shirt",
-        "neck": "v-neck",
-        "material": "silk",
-        "image": "https://cdn.nerdstore.com.br/wp-content/uploads/2020/08/cid-camiseta-blackout-01-800x800.jpg",
-        "owner": nomeUsuario,
-        "author": "bbbbb"
-    }
     if (urlInput() == true && check1 == true) {
         alert("Pedido feito! \nObrigado por escolher a nossa loja")
-        postarPedido(objeto)
+        postarPedido()
     }
 }
 
@@ -131,7 +122,7 @@ function carregarPedidos(resposta) {
     ListaPedidos = resposta.data;
     renderizarPedidos()
     console.log("aaaa")
-    setInterval(pegarDados, 10000)
+    setInterval(pegarDados, 10000000)
 }
 
 function renderizarPedidos(pedido) {
@@ -159,7 +150,20 @@ function pedidoDiv(pedido) {
     `
 }
 
-function postarPedido(objeto) {
+function postarPedido() {
+    let tipoCamisa = document.querySelectorAll(".container .selecionado")
+    let modelo = String(tipoCamisa[0].children[0].className).slice(15,)
+    let neck = String(tipoCamisa[1].children[0].className).slice(16,)
+    let material =  String(tipoCamisa[2].children[0].className).slice(16,)
+    let objeto ={
+        "model": modelo,
+        "neck": neck,
+        "material": material,
+        "image": inputValor,
+        "owner": nomeUsuario,
+        "autor": nomeUsuario
+    }
+    console.log(objeto)
     let promessa = axios.post('https://mock-api.driven.com.br/api/v4/shirts-api/shirts', objeto)
     promessa.then(pedidoDiv)
     promessa.catch(tratarErros)
@@ -168,8 +172,8 @@ function postarPedido(objeto) {
 function tratarErros(erro) {
     console.log("Status Code: " + erro.response.status);
     console.log("Mensagem de erro: " + erro.response.data)
-    if (parseInt(erro.response.status) === 400) {
-        alert("Esse usuário já está em uso. Por favor, inserir outro.")
+    if (parseInt(erro.response.status) === 422) {
+        alert("Ops, não conseguimos processar sua encomenda")
         recarregarPagina()
     }
 }
