@@ -208,9 +208,6 @@ arcticle p {
     overflow-x: scroll;
 }
 
-.container2::-webkit-scrollbar {
-}
-
 .pedidos, .pedidos2 {
     display: flex;
     flex-direction: column;

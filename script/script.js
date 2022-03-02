@@ -68,7 +68,7 @@ function selecionar3(produto) {
 
 function urlInput() {
     let input = String(document.querySelector("input").value)
-    if (input.length === 0) {
+    if (input.length === 0 || input.includes("https://") == false) {
         alert('Por favor insira um link válido')
         return false
     }
@@ -78,7 +78,21 @@ function urlInput() {
     }
 }
 
-
+function fazerObjeto(){
+    let tipoCamisa = document.querySelectorAll(".container .selecionado")
+    let modelo = tipoCamisa[0].children[0].className
+    let neck = tipoCamisa[1].children[0].className
+    let material =  tipoCamisa[2].children[0].className
+    let objeto ={
+        "model": String(modelo).slice(15,),
+        "neck": String(neck).slice(16,),
+        "material": String(material).slice(16,),
+        "image": inputValor,
+        "owner": nomeUsuario,
+        "autor": nomeUsuario
+    }
+    postarPedido(objeto)
+}
 
 function liberarBotao() {
     if (checar1 === true && checar2 === true) {
@@ -98,8 +112,7 @@ function liberarBotao() {
 function confirmarPedido() {
     let travar = false
     if (urlInput() == true && check1 == true) {
-        alert("Pedido feito! \nObrigado por escolher a nossa loja")
-        postarPedido()
+        fazerObjeto()
     }
 }
 
@@ -136,13 +149,30 @@ function renderizarPedidos(pedido) {
 
 function confirmarPedidos() {
     let confirmar = confirm("Pedido feito, clicke em OK para confirmar")
-    console.log(confirmar)
+    fazerObjeto2()
 }
+
+function fazerObjeto2(){
+    let tipoCamisa = document.querySelectorAll(".container2")
+    let modelo = tipoCamisa[0].children[0].className
+    let neck = tipoCamisa[0].children[0].className
+    let material =  tipoCamisa[0].children[0].className
+    let objeto ={
+        "model": String(modelo).slice(15,),
+        "neck": String(neck).slice(16,),
+        "material": String(material).slice(16,),
+        "image": inputValor,
+        "owner": nomeUsuario,
+        "autor": nomeUsuario
+    }
+    postarPedido(objeto)
+}
+
 function pedidoDiv(pedido) {
     return `
     <div class="container-pedidos">
     <div class="pedidos" onclick="confirmarPedidos()">
-        <div class="imagem-pedidos">
+        <div class="imagem-pedidos ${pedido.model}">
             <img src="${pedido.image}">
         </div>
         <p><strong>Criador:</strong> ${pedido.owner}</p>
@@ -150,21 +180,19 @@ function pedidoDiv(pedido) {
     `
 }
 
-function postarPedido() {
-    let tipoCamisa = document.querySelectorAll(".container .selecionado")
-    let modelo = String(tipoCamisa[0].children[0].className).slice(15,)
-    let neck = String(tipoCamisa[1].children[0].className).slice(16,)
-    let material =  String(tipoCamisa[2].children[0].className).slice(16,)
-    let objeto ={
-        "model": modelo,
-        "neck": neck,
-        "material": material,
+function postarPedido(objeto) {
+    let objetoz = {
+        "model": `${objeto.model}`,
+        "neck": `${objeto.neck}`,
+        "material": `${objeto.material}`,
         "image": inputValor,
         "owner": nomeUsuario,
-        "autor": nomeUsuario
+        "author": "bbbbb"
     }
     console.log(objeto)
-    let promessa = axios.post('https://mock-api.driven.com.br/api/v4/shirts-api/shirts', objeto)
+    console.log(objetoz)
+    let promessa = axios.post('https://mock-api.driven.com.br/api/v4/shirts-api/shirts', objetoz)
+    alert("Pedido feito! \nObrigado por escolher a nossa loja")
     promessa.then(pedidoDiv)
     promessa.catch(tratarErros)
 }
