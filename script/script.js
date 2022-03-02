@@ -2,9 +2,11 @@
 
 let nomeUsuario = prompt("Bem vindo à DrivenFashion \nQual por qual nome podemos te chamar?")
 let ListaPedidos = []
+let objetoPedido = {}
+let idClickado = 0
 let tipoCamisa = []
 let inputValor = ""
-let checar1, checar2, checar3,check1, travar = false
+let checar1, checar2, checar3, check1, travar = false
 
 
 /* Funções */
@@ -78,12 +80,12 @@ function urlInput() {
     }
 }
 
-function fazerObjeto(){
+function fazerObjeto() {
     let tipoCamisa = document.querySelectorAll(".container .selecionado")
     let modelo = tipoCamisa[0].children[0].className
     let neck = tipoCamisa[1].children[0].className
-    let material =  tipoCamisa[2].children[0].className
-    let objeto ={
+    let material = tipoCamisa[2].children[0].className
+    let objeto = {
         "model": String(modelo).slice(15,),
         "neck": String(neck).slice(16,),
         "material": String(material).slice(16,),
@@ -116,10 +118,10 @@ function confirmarPedido() {
     }
 }
 
-function checarEscolhas(){
+function checarEscolhas() {
     let quantidadeProdutos = document.querySelectorAll(".container-produto .selecionado").length
-    for(i = 0; i<quantidadeProdutos.length; i++){
-        
+    for (i = 0; i < quantidadeProdutos.length; i++) {
+
     }
 }
 
@@ -147,32 +149,26 @@ function renderizarPedidos(pedido) {
     }
 }
 
-function confirmarPedidos() {
+function confirmarPedidos(objeto) {
     let confirmar = confirm("Pedido feito, clicke em OK para confirmar")
-    fazerObjeto2()
-}
-
-function fazerObjeto2(){
-    let tipoCamisa = document.querySelectorAll(".container2")
-    let modelo = tipoCamisa[0].children[0].className
-    let neck = tipoCamisa[0].children[0].className
-    let material =  tipoCamisa[0].children[0].className
-    let objeto ={
-        "model": String(modelo).slice(15,),
-        "neck": String(neck).slice(16,),
-        "material": String(material).slice(16,),
-        "image": inputValor,
-        "owner": nomeUsuario,
-        "autor": nomeUsuario
+    console.log(objeto)
+    if (confirmar) {
+        let dados = axios.get("https://mock-api.driven.com.br/api/v4/shirts-api/shirts")
+        dados.then(chamarObjeto2)
+        dados.catch(tratarErros)
     }
-    postarPedido(objeto)
 }
 
+function chamarObjeto2(pedido) {
+    let objetoPedido = pedido.data
+    postarPedido2(objetoPedido)
+    console.log(pedido)
+}
 function pedidoDiv(pedido) {
     return `
     <div class="container-pedidos">
-    <div class="pedidos" onclick="confirmarPedidos()">
-        <div class="imagem-pedidos ${pedido.model}">
+    <div class="pedidos" onclick="confirmarPedidos(this)">
+        <div class="imagem-pedidos ${pedido.id}">
             <img src="${pedido.image}">
         </div>
         <p><strong>Criador:</strong> ${pedido.owner}</p>
@@ -192,7 +188,28 @@ function postarPedido(objeto) {
     console.log(objeto)
     console.log(objetoz)
     let promessa = axios.post('https://mock-api.driven.com.br/api/v4/shirts-api/shirts', objetoz)
-    alert("Pedido feito! \nObrigado por escolher a nossa loja")
+    if (promessa.then(pedidoDiv)) {
+        alert("Pedido feito! \nObrigado por escolher a nossa loja")
+    }
+    promessa.catch(tratarErros)
+}
+
+function postarPedido2(objeto) {
+    let objetoz = {
+        "model": `${objeto.model}`,
+        "neck": `${objeto.neck}`,
+        "material": `${objeto.material}`,
+        "image": inputValor,
+        "owner": nomeUsuario,
+        "author": "bbbbb"
+    }
+    let container2 = document.querySelector(".container2")
+    container2.innerHTML = "";
+    for (i = 0; i < objetoPedido.length; i++) {
+        const pedido = objetoPedido[i];
+        container2.innerHTML += pedidoDiv(pedido)
+    }
+    let promessa = axios.post('https://mock-api.driven.com.br/api/v4/shirts-api/shirts', objetoz)
     promessa.then(pedidoDiv)
     promessa.catch(tratarErros)
 }
